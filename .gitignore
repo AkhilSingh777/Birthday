@@ -1,0 +1,10 @@
+/.vscode/
+.DS_Store
+node_modules/
+dist/
+*.log
+*.tmp
+Thumbs.db
+# Ignore local audio/media edits if any
+*.mp3
+*.wav

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday 💖</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------------- GLOBAL ---------------- */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffd6e8, #cdb4db);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* ---------------- MAIN CONTAINER ---------------- */
+    .container {
+      text-align: center;
+      background: rgba(255,255,255,0.35);
+      padding: 40px 25px;
+      border-radius: 25px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      width: 90%;
+      max-width: 420px;
+      z-index: 2;
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.4rem;
+      color: #6a1b4d;
+    }
+
+    .name {
+      font-weight: 600;
+      color: #5a1540;
+      min-height: 40px;
+    }
+
+    .message {
+      color: #4a1236;
+      line-height: 1.7;
+      margin: 20px 0;
+    }
+
+    .date {
+      margin-top: 15px;
+      font-weight: 600;
+      color: #6a1b4d;
+    }
+
+    button {
+      background: #6a1b4d;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #82225f;
+    }
+
+    /* ---------------- BALLOONS ---------------- */
+    .balloons span {
+      position: absolute;
+      bottom: -100px;
+      width: 30px;
+      height: 40px;
+      border-radius: 50%;
+      animation: floatUp 5s linear forwards;
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(-120vh);
+        opacity: 0;
+      }
+    }
+
+    /* ---------------- GIFT CARD ---------------- */
+    .gift-card {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      transition: all 0.6s ease;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .card {
+      background: linear-gradient(135deg, #e7e2e5, #f0d5e0);
+      padding: 35px 25px;
+      border-radius: 25px;
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(106, 27, 77, 0.15);
+    }
+
+    /* ---------------- SLIDES ---------------- */
+    #slides {
+      min-height: 200px;
+    }
+
+    .slide {
+      display: none;
+      font-size: 1.15rem;
+      color: #412b2bda;
+      line-height: 1.9;
+      background: rgba(238, 186, 224, 0.945);
+      padding: 25px 20px;
+      border-radius: 18px;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .slide-controls {
+      margin-top: 25px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .slide-controls button {
+      padding: 8px 18px;
+      font-size: 0.9rem;
+      background: #d87ca1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .slide-controls button:hover {
+      background: #c5668d;
+    }
+
+    /* ---------------- ENVELOPE ---------------- */
+    .envelope {
+      background: linear-gradient(135deg, #fce1ec, #f7c8d9);
+      border-radius: 20px;
+      padding: 30px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(106, 27, 77, 0.2);
+    }
+
+    .envelope-front {
+      font-weight: 600;
+      color: #6a1b4d;
+    }
+
+    .envelope-letter {
+      display: none;
+      margin-top: 20px;
+    }
+
+    #finalMessage {
+      background: rgba(255, 255, 255, 0.75);
+      padding: 25px;
+      border-radius: 20px;
+    }
+
+    #typedMessage {
+      color: #5a2d42;
+      line-height: 1.9;
+      font-size: 1.05rem;
+    }
+
+    .from {
+      display: block;
+      margin-top: 20px;
+      font-weight: 600;
+      color: #6a1b4d;
+    }
+
+    .close-btn {
+      margin-top: 20px;
+      padding: 10px 26px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #d87ca1, #f3a6c8);
+      color: white;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 18px rgba(216, 124, 161, 0.35);
+    }
+
+    .close-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(216, 124, 161, 0.45);
+    }
+
+    /* ================= CARD BUTTON ================= */
+.button-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ================= CARD POPUP ================= */
+.card-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(80, 20, 60, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: opacity 0.4s ease;
+}
+
+.card-popup-content {
+  background: linear-gradient(135deg, #f0d5e0, #e7e2e5);
+  padding: 20px;
+  border-radius: 25px;
+  box-shadow: 0 20px 45px rgba(106, 27, 77, 0.35);
+  animation: cardPop 0.5s ease forwards;
+  max-width: 90%;
+  text-align: center;
+}
+
+.card-popup-content img {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 18px;
+}
+
+.close-card {
+  margin-top: 15px;
+  padding: 10px 26px;
+  border-radius: 25px;
+  border: none;
+  background: #6a1b4d;
+  color: white;
+  cursor: pointer;
+}
+
+.close-card:hover {
+  background: #82225f;
+}
+
+@keyframes cardPop {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.card-popup {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.card-popup:not(.hidden) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+  </style>
+</head>
+<body>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+  <source src="beat-3-115582.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ================= CARD POPUP ================= -->
+<div id="cardPopup" class="card-popup hidden">
+  <div class="card-popup-content">
+    <img src="birthday-card.png" alt="Birthday Card" />
+    <button class="close-card" onclick="closeCard()">Close 💜</button>
+  </div>
+</div>
+
+<div class="container">
+  <h1 class="fade-in">Happy Birthday 💕</h1>
+
+  <!-- Name Reveal -->
+  <h2 id="name" class="name"></h2>
+
+  <p class="message fade-in-delay">
+    A day as special as you, deserve  
+    something a little special too ✨
+  </p>
+
+  <div class="button-row">
+  <button onclick="startSurprise()">Open Your Surprise 🎁</button>
+  <button onclick="openCard()">View Card 💌</button>
+</div>
+
+
+  <p class="date">🎂 6th February 🎂</p>
+</div>
+
+<!-- Balloons -->
+<div class="balloons"></div>
+
+<!-- Gift Card -->
+<div id="giftCard" class="gift-card hidden">
+  <div class="card">
+    <div id="slides">
+      <p class="slide active">
+        Remember the time we laughed so much that our stomachs hurt? 😄  
+        Moments like that make everything feel lighter.
+      </p>
+
+      <p class="slide">
+        I loved our little adventures, even the silly ones.  
+        You make ordinary days feel special.
+      </p>
+
+      <p class="slide">
+        Every time we talked, I felt understood and happy.  
+        Those moments mean a lot to me.
+      </p>
+
+      <div class="slide-controls">
+        <button onclick="prevSlide()">Back</button>
+        <button onclick="nextSlide()">Next</button>
+      </div>
+    </div>
+
+    <div id="finalMessage" class="hidden">
+      <div class="envelope" onclick="openEnvelope()">
+        <div class="envelope-front">💌 Tap to Open</div>
+        <div class="envelope-letter">
+          <h2>💝 Just For You 💝</h2>
+          <p id="typedMessage"></p>
+          <span class="from">— From someone who truly cares 💫</span>
+          <button class="close-btn" onclick="closeGift()">Close 💗</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  /* ---------------- NAME TYPING ---------------- */
+  const nameText = "To Someone Truly Special 🌸";
+  let nameIndex = 0;
+  const nameEl = document.getElementById("name");
+
+  function typeName() {
+    if (nameIndex < nameText.length) {
+      nameEl.innerHTML += nameText.charAt(nameIndex);
+      nameIndex++;
+      setTimeout(typeName, 80);
+    }
+  }
+  typeName();
+
+  /* ---------------- SLIDES LOGIC ---------------- */
+  const slides = document.querySelectorAll(".slide");
+  let slideIndex = 0;
+
+  function updateSlides() {
+    slides.forEach(slide => slide.classList.remove("active"));
+    slides[slideIndex].classList.add("active");
+  }
+
+  window.nextSlide = function() {
+    if (slideIndex < slides.length - 1) {
+      slideIndex++;
+      updateSlides();
+    } else {
+      showFinalMessage();
+    }
+  }
+
+  window.prevSlide = function() {
+    if (slideIndex > 0) {
+      slideIndex--;
+      updateSlides();
+    }
+  }
+
+  function showFinalMessage() {
+    document.getElementById("slides").style.display = "none";
+    document.getElementById("finalMessage").classList.remove("hidden");
+  }
+
+  /* ---------------- START SURPRISE ---------------- */
+  window.startSurprise = function() {
+    const giftCard = document.getElementById("giftCard");
+    const slidesEl = document.getElementById("slides");
+    const finalMessage = document.getElementById("finalMessage");
+    const envelopeFront = document.querySelector(".envelope-front");
+    const envelopeLetter = document.querySelector(".envelope-letter");
+    const balloonContainer = document.querySelector(".balloons");
+    const music = document.getElementById("bgMusic");
+
+
+    // Reset slides
+    slideIndex = 0;
+    updateSlides();
+    slidesEl.style.display = "block";
+    finalMessage.classList.add("hidden");
+    if(envelopeFront) envelopeFront.style.display = "block";
+    if(envelopeLetter) envelopeLetter.style.display = "none";
+
+    // Clear old balloons
+    document.querySelectorAll(".balloons span").forEach(b => b.remove());
+
+    // Show gift card
+    giftCard.classList.remove("hidden");
+    giftCard.style.opacity = "1";
+    giftCard.style.transform = "scale(1)";
+
+    // Play music
+    music.currentTime = 0;
+    music.play();
+
+    // Balloons
+    for (let i = 0; i < 20; i++) {
+      const balloon = document.createElement("span");
+      balloon.style.left = Math.random() * 100 + "vw";
+      balloon.style.background = `hsl(${Math.random() * 360}, 70%, 80%)`;
+      const duration = 3000 + Math.random() * 2000;
+      balloon.style.animationDuration = duration + "ms";
+      balloonContainer.appendChild(balloon);
+      setTimeout(() => balloon.remove(), duration);
+    }
+
+    // Reset message
+    msgIndex = 0;
+    msgEl.innerHTML = "";
+  }
+
+  /* ---------------- MESSAGE TYPING ---------------- */
+  const message =
+`Hey Kanak,
+
+I just wanted to say thank you for all the moments we’ve shared.  
+Every laugh, every little adventure, every time we just talked — they made me genuinely happy.  
+You have this way of making everything feel special without even trying.
+
+So today, I just want to celebrate YOU.  
+Happy Birthday! 🎉💖  
+
+Thank you for being amazing.`;
+
+  let msgIndex = 0;
+  const msgEl = document.getElementById("typedMessage");
+
+  function typeMessage() {
+    if (msgIndex < message.length) {
+      msgEl.innerHTML += message.charAt(msgIndex);
+      msgIndex++;
+      setTimeout(typeMessage, 40);
+    }
+  }
+
+  /* ---------------- ENVELOPE OPEN ---------------- */
+  window.openEnvelope = function() {
+    document.querySelector(".envelope-front").style.display = "none";
+    document.querySelector(".envelope-letter").style.display = "block";
+
+    msgIndex = 0;
+    msgEl.innerHTML = "";
+    typeMessage();
+  }
+
+  window.closeGift = function() {
+    const giftCard = document.getElementById("giftCard");
+    const music = document.getElementById("bgMusic");
+
+    giftCard.style.opacity = "0";
+    giftCard.style.transform = "scale(0.9)";
+
+    setTimeout(() => {
+      giftCard.classList.add("hidden");
+      music.pause();
+      music.currentTime = 0;
+    }, 600);
+  }
+});
+
+/* ================= CARD FUNCTIONS ================= */
+window.openCard = function () {
+  const card = document.getElementById("cardPopup");
+  card.classList.remove("hidden");
+  card.style.opacity = "1";
+  card.style.pointerEvents = "auto";
+  document.body.style.overflow = "hidden";
+};
+
+window.closeCard = function () {
+  const card = document.getElementById("cardPopup");
+  card.style.opacity = "0";
+  card.style.pointerEvents = "none";
+  setTimeout(() => {
+    card.classList.add("hidden");
+    document.body.style.overflow = "auto";
+  }, 400);
+};
+
+</script>
+
+</body>
+</html>
